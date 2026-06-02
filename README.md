@@ -26,4 +26,34 @@ To maintain an independent, highly available backend infrastructure without incu
 * **Security Layer:** AES-256-GCM, Argon2id, reCAPTCHA v3
 * **Infra:** Render (with CRON optimization)
 
-* [Take a look!](https://traata.pages.dev/?v=1)
+[Take a look!](https://traata.pages.dev/?v=1)
+
+
+# Igris / Beru: Resilient AI Agent & Digital Shadow
+
+Igris is a fault-tolerant, RAG-based (Retrieval-Augmented Generation) conversational AI and automated agent. Designed to act as a "digital shadow," the system can adopt multiple dynamic personas (like the professional recruiter-facing "Beru" identity) to interact intelligently based on highly specific vector knowledge bases.
+
+### 🧠 Architectural Design & Decisions
+
+#### 1. High Availability via Multi-Provider LLM Fallbacks
+AI systems built on a single API are inherently brittle. Provider outages (e.g., OpenAI or Anthropic going down) instantly break standard applications. 
+* **The Solution:** Igris is engineered with a deterministic fallback chain. The core routing logic runs primarily on high-speed inference endpoints (like **Groq**), but actively monitors for timeouts or rate limits.
+* **Failover Logic:** If the primary provider fails, the system automatically hot-swaps to **Google GenAI** (or secondary configured LLMs) mid-request, ensuring 100% uptime and seamless user experience during provider-side outages.
+
+#### 2. Modular Prompt Composition
+Hardcoding system prompts limits the flexibility of an AI agent. Igris utilizes a modular architecture to build prompts dynamically.
+* **Identities & Rules:** System behavior is assembled at runtime by injecting specific "Identity" files so that every role sounds unique. 
+* **Dynamic Context:** This modularity allows the agent to switch context and operational boundaries instantly without requiring codebase deployments.
+
+#### 3. RAG & Vector Memory
+To prevent hallucinations and provide accurate, personal context, the agent utilizes a robust Retrieval-Augmented Generation pipeline.
+* **Orchestration:** Built utilizing **Node.js, Express,** and **LangChain.js**.
+* **Execution:** User queries are embedded, matched against a vector memory store containing personal knowledge bases/documents, and injected into the LLM context window to ground the agent strictly in reality.
+
+### 🛠 Tech Stack
+* **Client Interface:** ReactJS
+* **Orchestration Engine:** Node.js, Express
+* **AI/ML Layer:** LangChain.js, Groq, Google GenAI, Vector Memory
+* **Architecture:** RAG, LLM Fallback Routing
+
+  [Try it out!](https://agentigris.pages.dev/?v=1)
